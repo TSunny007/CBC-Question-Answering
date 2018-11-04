@@ -10,6 +10,12 @@ class Story:
     def __init__(self):
         self.text = []
 
+    def __repr__(self):
+        return self.__dict__.__str__()
+
+    def __str__(self):
+        return self.__dict__.__str__()
+
 
 class Question:
     id: str
@@ -19,6 +25,14 @@ class Question:
 
     def __init__(self, id):
         self.id = id
+
+    def __repr__(self):
+        return self.__dict__.__str__()
+
+    def __str__(self):
+        return self.__dict__.__str__()
+
+
 
 
 class FileLoader:
