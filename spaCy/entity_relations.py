@@ -67,6 +67,11 @@ def get_noun_chunk(sent, en_doc, keywords):
 
     return root, keywords
 
+def get_pos_chunk(sent, en_doc, pos_dict):
+    for token in sent:
+        pos_dict[token.text] = token.pos_
+
+    return pos_dict
 
 def extractFeatures(en_doc):
     keywords = []
@@ -77,16 +82,26 @@ def extractFeatures(en_doc):
 
     return keywords
 
+def extractPOS(en_doc):
+    pos_dict = {}
+
+    for sent in en_doc.sents:
+        pos_dict = get_pos_chunk(sent, en_doc, pos_dict)
+    
+    return pos_dict
 
 def run(question):
     question = question
     en_doc = nlp(u'' + question)
 
     keywords = extractFeatures(en_doc)
+    pos = extractPOS(en_doc)
 
     print(question)
 
     print(keywords)
+
+    print(pos)
 
 
 for question in questions:
