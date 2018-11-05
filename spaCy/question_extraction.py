@@ -40,7 +40,7 @@ class QuestionExtractor:
         keywords = []
         for child in token.children:
             if child.tag_ == 'acomp' or child.dep_ == 'xcomp' or child.dep_ == 'ccomp':
-                if child.lemma_ != 'be':
+                if child.lemma_ != 'be' and child.lemma_ != 'do':
                     keywords.append(('VERB', child.lemma_))
         return keywords
 
@@ -49,7 +49,7 @@ class QuestionExtractor:
         # format:
         # 1) 'NOUN', noun, (optional) noncompound_version
         # 2) 'ROOT', root.lemma
-        # 3) 'VERB', (optional) child_verbs.lemma
+        # 3) 'VERB', child_verbs.lemma
         keywords = []
         for token in en_doc:
             # check for noun type
@@ -66,7 +66,8 @@ class QuestionExtractor:
                         keywords.append(('NOUN', token.text))
 
             if token.dep_ == 'ROOT' and token.pos:
-                keywords.append(('ROOT', token.lemma_))
+                if token.lemma_ != 'be' and token.lemma_ != 'do':
+                    keywords.append(('ROOT', token.lemma_))
                 keywords += (QuestionExtractor.get_root_phrase(token))
 
             if token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB":
