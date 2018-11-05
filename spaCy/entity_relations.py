@@ -73,7 +73,7 @@ def get_pos_chunk(sent, en_doc, pos_dict):
 
     return pos_dict
 
-def get_entity_chunk(sent, en_doc, entity_dict):
+def get_name_entity_chunk(sent, en_doc, entity_dict):
     for token in sent:
         entity_dict[token.text] = token.pos_
 
@@ -100,9 +100,9 @@ def extractNameEntities(en_doc):
     entity_dict = {}
 
     for sent in en_doc.sents:
-        entity_dict = get_entity_chunk(sent, en_doc, entity_dict)
+        entity_dict = get_name_entity_chunk(sent, en_doc, entity_dict)
     
-    return pos_dict
+    return entity_dict
 
 def run(question):
     question = question
