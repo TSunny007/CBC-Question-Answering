@@ -21,6 +21,8 @@ class Question:
     id: str
     content: str
     difficulty: str
+
+    # only present if an answer file is loaded
     answers: List[str]
 
     def __init__(self, id):
