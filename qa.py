@@ -61,13 +61,13 @@ with open(directory_file, 'r') as directory:
             file = input_dir + line.strip()
 
             story = FileLoader.load_story(file + '.story')
-            sentences = QA.get_story_setences(story)
+            sentences, bagged_sentences = QA.get_story_setences(story)
             for question in FileLoader.load_questions(file + '.questions'):
                 q = QA.extract_question(question)
-                best_sentence = sentences[0][QA.overlap(sentences[1], q[0])]
+                best_index = QA.overlap(bagged_sentences, q[0])
 
-                results[question.id] = best_sentence.text
+                results[question.id] = sentences[best_index].text  # best_sentence
                 print('Question: ', question.content)
-                print('Answer: ', best_sentence, '\n')
+                print('Answer: ', results[question.id], '\n')
 
-ResponseWriter.write_answer('output.response', results)
+ResponseWriter.write_answer('developset/output.response', results)
