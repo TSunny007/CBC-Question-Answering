@@ -2,7 +2,7 @@ from collections import deque
 
 
 class QuestionExtractor:
-        
+
     @staticmethod
     def get_compound_nouns(en_doc, token):
 
@@ -65,6 +65,16 @@ class QuestionExtractor:
                     else:
                         keywords.append(('NOUN', token.text))
 
+            if token.dep_ == "nummod" or token.tag_ == "CD":
+                token_text = token.text
+                if token.i > 0:
+                    if en_doc[token.i - 1].tag_ == "JJ":
+                        token_text = en_doc[token.i - 1].text + " " + token.text
+                if token.i < len(en_doc) - 1:
+                    if en_doc[token.i + 1].tag_ == "JJ":
+                        token_text = token.text + " " + en_doc[token.i + 1].text
+                keywords.append(('NUMBER', token_text))
+
             if token.dep_ == 'ROOT' and token.pos:
                 if token.lemma_ != 'be' and token.lemma_ != 'do':
                     keywords.append(('ROOT', token.lemma_))
@@ -73,7 +83,6 @@ class QuestionExtractor:
             if token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB":
                 keywords.insert(0, ('Q_TYPE', token.lemma_, token.text + ' ' + en_doc[token.i + 1].text))
         return keywords
-
 
 # import spacy
 # from general.file_loader import *
