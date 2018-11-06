@@ -65,6 +65,16 @@ class QuestionExtractor:
                     else:
                         keywords.append(('NOUN', token.text))
 
+            if token.dep_ == "nummod" or token.tag_ == "CD":
+                token_text = token.text
+                if token.i > 0:
+                    if en_doc[token.i - 1].tag_ == "JJ":
+                        token_text = en_doc[token.i - 1].text + " " + token.text
+                if token.i < len(en_doc) - 1:
+                    if en_doc[token.i + 1].tag_ == "JJ":
+                        token_text = token.text + " " + en_doc[token.i + 1].text
+                keywords.append(('NUMBER', token_text))
+
             if token.dep_ == 'ROOT' and token.pos:
                 if token.lemma_ != 'be' and token.lemma_ != 'do':
                     keywords.append(('ROOT', token.lemma_))
@@ -74,32 +84,33 @@ class QuestionExtractor:
                 keywords.insert(0, ('Q_TYPE', token.lemma_, token.text + ' ' + en_doc[token.i + 1].text))
         return keywords
 
-# import spacy
-# from general.file_loader import *
-# import os
-#
-# nlp = spacy.load('en_core_web_sm')
-#
-#
-# def run(question):
-#     en_doc = nlp(u'' + question)
-#
-#     keywords = QuestionExtractor.extract_question_features(en_doc)
-#     # pos = extract_pos(en_doc)
-#
-#     print(question)
-#
-#     print(keywords)
-#
-#     # print(pos)
-#
-#
-# for file in [file for file in os.listdir('developset/') if '.questions' in file]:
-#     for question in FileLoader.load_questions('developset/'+file):
-#         # q = nlp(question.content)
-#         # print(question.content, list(q.ents) + list(q.noun_chunks))
-#         run(question.content)
-#         print()
+
+import spacy
+from general.file_loader import *
+import os
+
+nlp = spacy.load('en_core_web_sm')
+
+
+def run(question):
+    en_doc = nlp(u'' + question)
+
+    keywords = QuestionExtractor.extract_question_features(en_doc)
+    # pos = extract_pos(en_doc)
+
+    print(question)
+
+    print(keywords)
+
+    # print(pos)
+
+
+for file in [file for file in os.listdir('developset/') if '.questions' in file]:
+    for question in FileLoader.load_questions('developset/' + file):
+        # q = nlp(question.content)
+        # print(question.content, list(q.ents) + list(q.noun_chunks))
+        run(question.content)
+        print()
 
 
 # def get_pos_chunk(sent, pos_dict):
