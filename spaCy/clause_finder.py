@@ -81,10 +81,10 @@ class ClauseFinder:
         clause_features = AnswerExtractor.extract_clause_features(clause_content)
         print(clause_features)
 
+        print("Q ft =", question_features[0][1])
         for clause_ft in clause_features:
             # print (quest_ft, clause_ft)
-            print("Q ft = %s", question_features[0][1])
-            print("C ft = %s", clause_ft[1])
+            print("C ft =", clause_ft[1])
             if (question_features[0][1] == 'where'):
                 if clause_ft[1] == 'GPE' or clause_ft[1] == 'LOC':
                     answers.append(clause_ft[0])
@@ -107,6 +107,10 @@ class ClauseFinder:
                     answers.append(clause_ft[0])
                     break
 
+            if (question_features[0][1] == 'what'):
+                if clause_ft[1] == 'ORG' or clause_ft[1] == 'LOC':
+                    answers.append(clause_ft[0])
+                    break
         return answers
 
 questions = FileLoader.load_questions('developset/1999-W02-5.questions')
