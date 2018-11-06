@@ -6,6 +6,7 @@ from sklearn.metrics.pairwise import linear_kernel
 
 from general.file_loader import *
 from general.response_writer import ResponseWriter
+from precision.answer_extraction import AnswerExtractor
 
 
 class QA:
@@ -34,11 +35,7 @@ class QA:
                     not token.is_stop and not token.is_punct and token.lemma_ != '-PRON-' and token.lemma_.strip()
                     and not (token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB")]
 
-        for token in q:
-            if token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB":
-                q_type = token.text
-
-        return q_bagged, q_type
+        return q, q_bagged
 
     @staticmethod
     def overlap(stories: List[List[str]], bagged: List[str]):
@@ -70,10 +67,10 @@ with open(directory_file, 'r') as directory:
             story = FileLoader.load_story(file + '.story')
             sentences, bagged_sentences = QA.get_story_setences(story)
             for question in FileLoader.load_questions(file + '.questions'):
-                q = QA.extract_question(question)
-                best_index = QA.overlap(bagged_sentences, q[0])
+                q, q_bagged = QA.extract_question(question)
+                best_index = QA.overlap(bagged_sentences, q_bagged)
 
-                results[question.id] = sentences[best_index].text  # best_sentence
+                results[question.id] = AnswerExtractor.get_answer(q, sentences[best_index])  # best_sentence
                 print('Question: ', question.content)
                 print('Answer: ', results[question.id], '\n')
 
