@@ -2,7 +2,7 @@ from collections import deque
 
 
 class QuestionExtractor:
-
+        
     @staticmethod
     def get_compound_nouns(en_doc, token):
 
@@ -73,6 +73,7 @@ class QuestionExtractor:
             if token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB":
                 keywords.insert(0, ('Q_TYPE', token.lemma_, token.text + ' ' + en_doc[token.i + 1].text))
         return keywords
+
 
 # import spacy
 # from general.file_loader import *
