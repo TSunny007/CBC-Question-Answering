@@ -13,24 +13,31 @@ class QA:
 
     @staticmethod
     def get_story_setences(story: Story):
+        # gets the sentences in the passage
         sentences = [sentence for paragraph in story.text for sentence in QA.nlp(paragraph).sents]
 
+        # gets a list of list of normalized words, where the first list contains every sentence as an embedded list.
         sentences_bagged = [[token.lemma_ for token in sentence
                              if
                              not token.is_stop and not token.is_punct and token.lemma_ != '-PRON-' and token.lemma_.strip()]
                             for sentence in sentences]
+
+        # returns a list of spacy span (for NER), a bagged list of strings
         return sentences, sentences_bagged
 
     @staticmethod
     def extract_question(question: Question):
         q = QA.nlp(question.content)
 
+        # gets a list of normalized words in the sentence.
         q_bagged = [token.lemma_ for token in q if
                     not token.is_stop and not token.is_punct and token.lemma_ != '-PRON-' and token.lemma_.strip()
                     and not (token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB")]
 
-        q_type = [token.lemma_ for token in q if
-                  (token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB")][0]
+        for token in q:
+            if token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB":
+                q_type = token.text
+
         return q_bagged, q_type
 
     @staticmethod
