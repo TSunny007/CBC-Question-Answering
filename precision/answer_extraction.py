@@ -16,18 +16,49 @@ class AnswerExtractor:
 
         for token in question:
             if token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB":
-                q_type = token.text
+                q_type = token.lemma_
+                q_index = token.i
 
         if q_type == 'where':
-            return sentence.text
+            return ' '.join(entity.text for entity in sentence.ents if
+                            (entity.label_ == 'GPE' or
+                             entity.label_ == 'LOC'))
+
 
         elif q_type == 'who':
-            return sentence.text
+            return ' '.join(entity.text for entity in sentence.ents if
+                            (entity.label_ == 'PERSON' or
+                             entity.label_ == 'NORP' or
+                             entity.label_ == 'FAC' or
+                             entity.label_ == 'ORG' or
+                             entity.label_ == 'GPE'))
 
         elif q_type == 'how':
+            # if there is an qdjective then we return numerical information
+            if question[q_index + 1].pos_ == 'ADJ':
+                return ' '.join(entity.text for entity in sentence.ents if
+                                (entity.label_ == 'QUANTITY' or
+                                 entity.label_ == 'TIME' or
+                                 entity.label_ == 'CARDINAL' or
+                                 entity.label_ == 'MONEY' or
+                                 entity.label_ == 'PERCENT'))
             return sentence.text
 
         elif q_type == 'when':
+            # If there is an entity in the sentence
+            time = ' '.join(entity.text for entity in sentence.ents if
+                            (entity.label_ == 'DATE' or
+                             entity.label_ == 'TIME' or
+                             entity.label_ == 'PERCENT'))
+            if time.strip():
+                return time
+            # when the sentence itself has 'when' eg 'when he died'
+            sentence_split = sentence.text.split()
+            for index, word in enumerate(sentence_split):
+                if word == 'when':
+                    return sentence[index:].text
+
+            # otherwise
             return sentence.text
 
         elif q_type == 'which':
