@@ -1,4 +1,4 @@
-developset/
+/Users/miango/Downloads/Documents/UofU/F18/NLP/Projects/CBC-Question-Answering/developset/
 1999-W18-3
 1999-W10-5
 1999-W08-3

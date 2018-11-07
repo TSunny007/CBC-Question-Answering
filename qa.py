@@ -76,7 +76,7 @@ def main():
                     print('QuestionID: {}'.format(question.id))
                     print('Answer:', results[question.id], '\n')
 
-    ResponseWriter.write_answer('./output.response', results)
+    ResponseWriter.write_answer('./testing/output.response', results)
 
 
 if __name__ == '__main__':

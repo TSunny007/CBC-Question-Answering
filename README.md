@@ -1,7 +1,7 @@
 # CBC-Question-Answering
 Designing a question answering system to answer questions collected from the Canadian Broadcasting Corporation webpage for kids.
 
-This program would take the input file path as a command line argument. After running the instructions below, the output file will be writen under CBC-Question-Answering folder.
+This program would take the input file path as a command line argument (The input.txt file is under testing folder). After running the instructions below, the output file will be writen under the testing folder.
 
 ##External Sources
 * **spaCy** – https://spacy.io/
@@ -25,7 +25,7 @@ source env/bin/activate.csh
 pip install spacy
 python -m spacy download en
 pip install -U scikit-learn
-python qa.py developset/input.txt
+python qa.py testing/input.txt
 ````
 
 ##Other Information
