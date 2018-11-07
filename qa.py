@@ -13,7 +13,7 @@ class QA:
     nlp = spacy.load('en_core_web_sm')
 
     @staticmethod
-    def get_story_setences(story: Story):
+    def get_story_setences(story):
         # gets the sentences in the passage
         sentences = [sentence for paragraph in story.text for sentence in QA.nlp(paragraph).sents]
 
@@ -27,7 +27,7 @@ class QA:
         return sentences, sentences_bagged
 
     @staticmethod
-    def extract_question(question: Question):
+    def extract_question(question):
         q = QA.nlp(question.content)
 
         # gets a list of normalized words in the sentence.
@@ -38,7 +38,7 @@ class QA:
         return q, q_bagged
 
     @staticmethod
-    def overlap(stories: List[List[str]], bagged: List[str]):
+    def overlap(stories, bagged):
         documents = stories + [bagged]
 
         modified_doc = [' '.join(i) for i in

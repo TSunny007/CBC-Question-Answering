@@ -2,10 +2,10 @@ from typing import List
 
 
 class Story:
-    headline: str
-    date: str
-    id: str
-    text: List[str]
+    headline = ""
+    date = ""
+    id = ""
+    text = list()
 
     def __init__(self):
         self.text = []
@@ -18,12 +18,12 @@ class Story:
 
 
 class Question:
-    id: str
-    content: str
-    difficulty: str
+    id = ""
+    content = ""
+    difficulty = ""
 
     # only present if an answer file is loaded
-    answers: List[str]
+    answers = list()
 
     def __init__(self, id):
         self.id = id
@@ -54,7 +54,7 @@ class FileLoader:
         """
         assert filepath.split('.')[-1] == 'story'
 
-        story: Story = Story()
+        story = Story()
         with open(filepath, 'r') as story_file:
             for line_number, line in enumerate(story_file):
                 line = line.strip()
@@ -85,7 +85,7 @@ class FileLoader:
         assert (question_file.split('.')[-1] == 'questions') or (question_file.split('.')[-1] == 'answers')
         questions = []
         with open(question_file, 'r') as question_file:
-            question: Question
+            question = ""
             for line in question_file:
                 if not line:
                     continue
