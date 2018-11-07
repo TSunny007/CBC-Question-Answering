@@ -1,3 +1,4 @@
+import sys
 from collections import OrderedDict
 
 import spacy
@@ -54,24 +55,29 @@ class QA:
         return related_docs_indices[0]
 
 
-directory_file = 'developset/input.txt'
-input_dir = None
-results = OrderedDict()
-with open(directory_file, 'r') as directory:
-    for line in directory:
-        if not input_dir:
-            input_dir = line.strip()
-        else:
-            file = input_dir + line.strip()
+def main():
+    directory_file = sys.argv[1]
+    input_dir = None
+    results = OrderedDict()
+    with open(directory_file, 'r') as directory:
+        for line in directory:
+            if not input_dir:
+                input_dir = line.strip()
+            else:
+                file = input_dir + line.strip()
 
-            story = FileLoader.load_story(file + '.story')
-            sentences, bagged_sentences = QA.get_story_setences(story)
-            for question in FileLoader.load_questions(file + '.questions'):
-                q, q_bagged = QA.extract_question(question)
-                best_index = QA.overlap(bagged_sentences, q_bagged)
+                story = FileLoader.load_story(file + '.story')
+                sentences, bagged_sentences = QA.get_story_setences(story)
+                for question in FileLoader.load_questions(file + '.questions'):
+                    q, q_bagged = QA.extract_question(question)
+                    best_index = QA.overlap(bagged_sentences, q_bagged)
 
-                results[question.id] = AnswerExtractor.get_answer(q, sentences[best_index])  # best_sentence
-                print('Question: ', question.content)
-                print('Answer: ', results[question.id], '\n')
+                    results[question.id] = AnswerExtractor.get_answer(q, sentences[best_index])  # best_sentence
+                    print('QuestionID: {}'.format(question.id))
+                    print('Answer:', results[question.id], '\n')
 
-ResponseWriter.write_answer('developset/output.response', results)
+    ResponseWriter.write_answer('developset/output.response', results)
+
+
+if __name__ == '__main__':
+    main()
