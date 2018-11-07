@@ -5,4 +5,4 @@ source env/bin/activate.csh &> /dev/null
 pip install spacy &> /dev/null
 python -m spacy download en &> /dev/null
 pip install -U scikit-learn &> /dev/null
-python qa.py
+python qa.py developset/input.txt
