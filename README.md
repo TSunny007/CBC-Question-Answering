@@ -19,7 +19,7 @@ This program would take the input file path as a command line argument (The inpu
 ### Without a script file: 
 ````
 pip install --user virtualenv
-mkdir env &> /dev/null
+mkdir env
 python -m virtualenv env -p /home/u1141153/python/bin/python3.5
 source env/bin/activate.csh
 pip install spacy
