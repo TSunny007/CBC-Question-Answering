@@ -13,10 +13,12 @@ class AnswerExtractor:
                 q_type = token.lemma_
                 q_index = token.i
 
+        assert q_type
+
         if q_type == 'where':
             return ' '.join(entity.text for entity in sentence.ents if
                             (entity.label_ == 'GPE' or
-                             entity.label_ == 'LOC'))
+                             entity.label_ == 'LOC') and entity.text not in question.text)
 
         elif q_type == 'who':
             return ' '.join(entity.text for entity in sentence.ents if
@@ -24,7 +26,7 @@ class AnswerExtractor:
                              entity.label_ == 'NORP' or
                              entity.label_ == 'FAC' or
                              entity.label_ == 'ORG' or
-                             entity.label_ == 'GPE'))
+                             entity.label_ == 'GPE') and entity.text not in question.text)
 
         elif q_type == 'how':
             # if there is an qdjective then we return numerical information
@@ -34,7 +36,7 @@ class AnswerExtractor:
                                  entity.label_ == 'TIME' or
                                  entity.label_ == 'CARDINAL' or
                                  entity.label_ == 'MONEY' or
-                                 entity.label_ == 'PERCENT'))
+                                 entity.label_ == 'PERCENT') and entity.text not in question.text)
             return sentence.text
 
         elif q_type == 'when':
@@ -42,7 +44,7 @@ class AnswerExtractor:
             time = ' '.join(entity.text for entity in sentence.ents if
                             (entity.label_ == 'DATE' or
                              entity.label_ == 'TIME' or
-                             entity.label_ == 'PERCENT'))
+                             entity.label_ == 'PERCENT') and entity.text not in question.text)
             if time.strip():
                 return time
             # when the sentence itself has 'when' eg 'when he died'
@@ -57,7 +59,7 @@ class AnswerExtractor:
         elif q_type == 'which':
             return ' '.join(token.text for token in sentence if
                             (token.tag_ == 'NOUN' or
-                             token.tag_ == 'PROPN'))
+                             token.tag_ == 'PROPN') and token.text not in question.content)
 
         elif q_type == 'what':
             return sentence.text

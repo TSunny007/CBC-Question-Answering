@@ -1,5 +1,8 @@
+import json
 import sys
 from collections import OrderedDict
+from urllib import request
+from urllib.parse import quote
 
 import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -37,6 +40,17 @@ class QA:
                     and not (token.tag_ == "WDT" or token.tag_ == "WP" or token.tag_ == "WP$" or token.tag_ == "WRB")]
 
         return q, q_bagged
+
+    @staticmethod
+    def coreference_resolver(paragraph):
+        try:
+            coreference_resolved = \
+            json.load(request.urlopen('https://coref.huggingface.co/coref?text=' + quote(paragraph)))['corefResText']
+        except Exception as _:
+            return paragraph
+        if not coreference_resolved:
+            return paragraph
+        return coreference_resolved
 
     @staticmethod
     def overlap(stories, bagged):

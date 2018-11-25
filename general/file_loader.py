@@ -1,6 +1,3 @@
-from typing import List
-
-
 class Story:
     headline = ""
     date = ""
@@ -22,9 +19,6 @@ class Question:
     content = ""
     difficulty = ""
 
-    # only present if an answer file is loaded
-    answers = list()
-
     def __init__(self, id):
         self.id = id
 
@@ -39,7 +33,7 @@ class Question:
 
 class FileLoader:
     @staticmethod
-    def load_story(filepath) -> Story:
+    def load_story(filepath):
         """
         Loads a story given its path. The story must be in the format
         HEADLINE:
@@ -75,7 +69,7 @@ class FileLoader:
         return story
 
     @staticmethod
-    def load_questions(question_file) -> List[Question]:
+    def load_questions(question_file):
         """
         Loads a question or an answer file. The file extensions must be '.questions' or '.answers'
         :param question_file: filepath of the question or answer file
@@ -96,8 +90,6 @@ class FileLoader:
                         question = Question(' '.join(line_parts[1:]))
                     elif line_parts[0] == 'Question:':
                         question.content = ' '.join(line_parts[1:])
-                    elif line_parts[0] == 'Answer:':
-                        question.answers = ' '.join(line_parts[1:]).split('|')
                         questions.append(question)
                     elif line_parts[0] == 'Difficulty:':
                         question.difficulty = ' '.join(line_parts[1:])
