@@ -90,7 +90,6 @@ class FileLoader:
                         question = Question(' '.join(line_parts[1:]))
                     elif line_parts[0] == 'Question:':
                         question.content = ' '.join(line_parts[1:])
-                        questions.append(question)
                     elif line_parts[0] == 'Difficulty:':
                         question.difficulty = ' '.join(line_parts[1:])
                         questions.append(question)
