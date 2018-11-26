@@ -54,7 +54,7 @@ class AnswerExtractor:
                     return sentence[index:].text
 
             # otherwise
-            return sentence.text
+            return ''
 
         elif q_type == 'which':
             return ' '.join(token.text for token in sentence if
@@ -69,6 +69,8 @@ class AnswerExtractor:
             sentence_split = sentence.text.split()
             for index, word in enumerate(sentence_split):
                 if word == 'because':
+                    return sentence[index:].text
+                elif word == 'so that' or word == 'so' or word == 'since' or word == 'due to':
                     return sentence[index:].text
             return sentence.text
 
