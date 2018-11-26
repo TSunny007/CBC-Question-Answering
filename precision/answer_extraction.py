@@ -24,10 +24,10 @@ class AnswerExtractor:
             if loc.strip():
                 return loc
             # when the sentence itself has 'when' eg 'when he died'
-            sentence_split = sentence.text.split()
-            for index, word in enumerate(sentence_split):
-                if word == 'at' or word == 'in' or word == 'into' or word == 'to':
-                    return sentence[index:].text
+            #sentence_split = sentence.text.split()
+            #for index, word in enumerate(sentence_split):
+            #    if word == 'at' or word == 'in' or word == 'into' or word == 'to':
+            #        return sentence[index:].text
 
             # otherwise
             return ''
@@ -65,7 +65,7 @@ class AnswerExtractor:
                     return sentence[index:].text
 
             # otherwise
-            return sentence.text
+            return ''
 
         elif q_type == 'which':
             return ' '.join(token.text for token in sentence if
