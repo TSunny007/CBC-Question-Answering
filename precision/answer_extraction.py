@@ -16,23 +16,21 @@ class AnswerExtractor:
         assert q_type
 
         if q_type == 'where':
-            return ' '.join(entity.text for entity in sentence.ents if
+
+            loc = ' '.join(entity.text for entity in sentence.ents if
                             (entity.label_ == 'GPE' or
                              entity.label_ == 'LOC') and entity.text not in question.text)
-            
-            # loc = ' '.join(entity.text for entity in sentence.ents if
-            #                 (entity.label_ == 'GPE' or
-            #                  entity.label_ == 'LOC') and entity.text not in question.text)
-            # if loc.strip():
-            #     return loc
-            # # when the sentence itself has 'when' eg 'when he died'
-            # sentence_split = sentence.text.split()
-            # for index, token in zip(enumerate(sentence_split), sentence):
-            #     if token.dep_ == 'prep':
-            #         return sentence[index:].text
 
-            # # otherwise
-            # return ''
+            if loc.strip():
+                return loc
+            # when the sentence itself has 'when' eg 'when he died'
+            sentence_split = sentence.text.split()
+            for index, word in enumerate(sentence_split):
+                if word == 'at' or word == 'in' or word == 'into' or word == 'to':
+                    return sentence[index:].text
+
+            # otherwise
+            return ''
 
         elif q_type == 'who':
             return ' '.join(entity.text for entity in sentence.ents if
@@ -84,7 +82,7 @@ class AnswerExtractor:
                 if (word == 'because' or word == 'since' or 
                         (word == 'so' and sentence_split[index+1] != 'that')):
                     return sentence[index:].text
-                elif ((word == 'so' and sentence_split[index+1] == 'that') or 
+                elif ((word == 'so' and sentence_split[index+1] == 'that') or
                      (word == 'due' and sentence_split[index+1] == 'to')):
                     return sentence[index+2:].text
             return sentence.text
