@@ -43,7 +43,7 @@ class AnswerExtractor:
                              entity.label_ == 'GPE') and entity.text not in question.text)
 
         elif q_type == 'how':
-            # if there is an qdjective then we return numerical information
+            # if there is an adjective then we return numerical information
             if question[q_index + 1].pos_ == 'ADJ':
                 return ' '.join(entity.text for entity in sentence.ents if
                                 (entity.label_ == 'QUANTITY' or
@@ -57,8 +57,7 @@ class AnswerExtractor:
             # If there is an entity in the sentence
             time = ' '.join(entity.text for entity in sentence.ents if
                             (entity.label_ == 'DATE' or
-                             entity.label_ == 'TIME' or
-                             entity.label_ == 'PERCENT') and entity.text not in question.text)
+                             entity.label_ == 'TIME') and entity.text not in question.text)
             if time.strip():
                 return time
             # when the sentence itself has 'when' eg 'when he died'
@@ -68,7 +67,7 @@ class AnswerExtractor:
                     return sentence[index:].text
 
             # otherwise
-            return ''
+            return sentence.text
 
         elif q_type == 'which':
             return ' '.join(token.text for token in sentence if
@@ -83,7 +82,7 @@ class AnswerExtractor:
             sentence_split = sentence.text.split()
             for index, word in enumerate(sentence_split):
                 if (word == 'because' or word == 'since' or 
-                    (word == 'so' and sentence_split[index+1] != 'that')):
+                        (word == 'so' and sentence_split[index+1] != 'that')):
                     return sentence[index:].text
                 elif ((word == 'so' and sentence_split[index+1] == 'that') or 
                      (word == 'due' and sentence_split[index+1] == 'to')):

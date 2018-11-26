@@ -455,7 +455,7 @@ Difficulty: moderate
 
 QuestionID: 1999-W32-4-6
 Question: Who was defeated in a chess match by IBM's Deep Blue supercomputer?
-Answer: Gary Kasparov | chess champion Gary Kasparov
+Answer: Garry Kasparov | chess champion Garry Kasparov
 Difficulty: easy
 
 QuestionID: 1999-W32-4-8
@@ -1185,7 +1185,7 @@ Difficulty: moderate
 
 QuestionID: 1999-W51-1-1
 Question: What kind of lawsuit was filed against Sarah McLachlan?
-Answer: copyight
+Answer: copyright
 Difficulty: easy
 
 QuestionID: 1999-W51-1-2
@@ -1470,7 +1470,7 @@ Difficulty: easy
 
 QuestionID: 2000-W05-4-9
 Question: Who organized huge protests that forced the British to hand over power?
-Answer: Mahatma Ghandi
+Answer: Mahatma Gandhi
 Difficulty: easy
 
 QuestionID: 2000-W06-5-1
@@ -1562,3 +1562,4 @@ QuestionID: 2000-W07-5-9
 Question: Where was Haider photographed playfully juggling a snowball?
 Answer: at the memorial to Raoul Wallenberg
 Difficulty: easy
+
